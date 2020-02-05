@@ -18,4 +18,9 @@ public class FuelCounterUpperTest {
         assertThat(FuelCounterUpper.calculateFuelRequired(12), is(2));
     }
 
+    @Test
+    public void givenModuleHasMass14_ThenRequiredFuelShouldBe2()
+    {
+        assertThat(FuelCounterUpper.calculateFuelRequired(14), is(2));
+    }
 }
