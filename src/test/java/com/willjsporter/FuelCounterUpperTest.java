@@ -3,13 +3,11 @@ package com.willjsporter;
 
 import org.junit.Test;
 
+import java.util.stream.IntStream;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-
-/**
- * Unit test for simple App.
- */
 public class FuelCounterUpperTest {
 
     @Test
@@ -34,5 +32,11 @@ public class FuelCounterUpperTest {
     public void givenModuleHasMass100756_ThenRequiredFuelShouldBe654()
     {
         assertThat(FuelCounterUpper.calculateFuelRequired(100756), is(33583));
+    }
+
+    @Test
+    public void shouldBeAbleToSumMultipleFuelRequirements() {
+        int actualFuelRequired = FuelCounterUpper.calculateFuelRequiredForFleet(IntStream.of(12, 13, 14, 14));
+        assertThat(actualFuelRequired, is(8));
     }
 }
