@@ -4,19 +4,23 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class FileStreamerUtil {
 
-    static IntStream streamFileInputAsIntegers(String filepath) {
+    static List<Integer> streamFileInputAsIntegers(String filepath) {
         String projectRootDirectory = System.getProperty("user.dir") + "/";
         try {
             String fileContents = Files
                 .readString(Paths.get(projectRootDirectory + filepath), StandardCharsets.UTF_8)
                 .trim();
-            return Stream.of(fileContents.split(","))
-                .mapToInt(Integer::valueOf);
+            return List.of(fileContents.split(","))
+                .stream()
+                .map(Integer::valueOf)
+                .collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

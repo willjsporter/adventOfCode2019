@@ -6,17 +6,20 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 public class FileStreamerUtilTest {
 
   @Test
   public void shouldPutListOfIntegersFromFileIntoStream() {
-    IntStream fileStream = FileStreamerUtil.streamFileInputAsIntegers("src/test/resources/integerTestInput_List.txt");
+    List<Integer> fileStream = FileStreamerUtil.streamFileInputAsIntegers("src/test/resources/integerTestInput_List.txt");
     List<Integer> expectedFileContents = List.of(1, 2, 5, 6, 2, 4, 200);
 
-    boolean doFileContentsMatchExpectedList = fileStream.allMatch(expectedFileContents::contains);
-    assertTrue(doFileContentsMatchExpectedList);
+    assertThat(fileStream, is(expectedFileContents));
+//    boolean doFileContentsMatchExpectedList = fileStream.allMatch(expectedFileContents::contains);
+//    assertTrue(doFileContentsMatchExpectedList);
   }
 
   @Test
