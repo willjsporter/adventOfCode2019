@@ -2,7 +2,6 @@ package com.willjsporter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class IntcodeProgram {
 
@@ -15,7 +14,18 @@ public class IntcodeProgram {
 
     public List<Integer> run() {
          List<Integer> outputList = new ArrayList<>(programInput);
-         outputList.set(programInput.get(3), programInput.get(1) + programInput.get(2));
+         switch (programInput.get(0)) {
+             case 1:
+                 outputList.set(programInput.get(3), programInput.get(1) + programInput.get(2));
+                 break;
+             case 2:
+                 outputList.set(programInput.get(3), programInput.get(1) * programInput.get(2));
+                 break;
+             case 99:
+                 break;
+             default:
+                 throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2 or 99");
+         }
          return outputList;
     }
 }
