@@ -16,20 +16,32 @@ public class IntcodeProgramTest {
 
     @Test
     public void givenOpcode1_andOutputPosition2_thenProgramShouldAddTheInputs_andPutResultInPosition2() {
-        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1, 2, 4, 2));
-        assertThat(intcodeProgram.run(), is(List.of(1, 2, 6, 2)));
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1, 2, 0, 2));
+        assertThat(intcodeProgram.run(), is(List.of(1, 2, 1, 2)));
     }
 
     @Test
     public void givenOpcode2_andOutputPosition1_thenProgramShouldMultiplyTheInputs_andPutResultInPosition1() {
-        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(2, 11, 3, 1));
-        assertThat(intcodeProgram.run(), is(List.of(2, 33, 3, 1)));
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(2, 2, 3, 1));
+        assertThat(intcodeProgram.run(), is(List.of(2, 3, 3, 1)));
     }
 
     @Test
-    public void givenOpcode99_thenProgramShouldHalt() {
+    public void givenOpcode99_thenProgramShouldHaltImmediately() {
         IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(99, 1, 2, 3, 4, 5, 6, 299));
         assertThat(intcodeProgram.run(), is(List.of(99, 1, 2, 3, 4, 5, 6, 299)));
+    }
+
+    @Test
+    public void givenMultipleOpcodes_thenProgramShouldIterateThroughThem() {
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1, 2, 3, 6, 2, 6, 299, 5, 99, 20, 30));
+        assertThat(intcodeProgram.run(), is(List.of(1, 2, 3, 6, 2, 180, 9, 5, 99, 20, 30)));
+    }
+
+    @Test
+    public void givenMultipleOpcodes_thenProgramShouldIterateThroughThem2() {
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50));
+        assertThat(intcodeProgram.run(), is(List.of(3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50)));
     }
 
     @Test

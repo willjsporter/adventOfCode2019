@@ -8,24 +8,31 @@ public class IntcodeProgram {
     private List<Integer> programInput;
 
     public IntcodeProgram(List<Integer> programInput) {
-        this.programInput = programInput;
+        this.programInput = new ArrayList<>(programInput);
     }
 
-
     public List<Integer> run() {
-         List<Integer> outputList = new ArrayList<>(programInput);
-         switch (programInput.get(0)) {
+        int inputPosition = 0;
+
+        while(inputPosition < programInput.size()) {
+            if(programInput.get(inputPosition) == 99) { break; }
+            iterateProgram(inputPosition);
+            inputPosition += 4;
+        }
+        return programInput;
+    }
+
+    public List<Integer> iterateProgram(int inputPosition) {
+         switch (programInput.get(inputPosition)) {
              case 1:
-                 outputList.set(programInput.get(3), programInput.get(1) + programInput.get(2));
+                 programInput.set(programInput.get(inputPosition + 3), programInput.get(programInput.get(inputPosition + 1)) + programInput.get(programInput.get(inputPosition + 2)));
                  break;
              case 2:
-                 outputList.set(programInput.get(3), programInput.get(1) * programInput.get(2));
-                 break;
-             case 99:
+                 programInput.set(programInput.get(inputPosition + 3), programInput.get(programInput.get(inputPosition + 1)) * programInput.get(programInput.get(inputPosition + 2)));
                  break;
              default:
                  throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2 or 99");
          }
-         return outputList;
+         return programInput;
     }
 }
