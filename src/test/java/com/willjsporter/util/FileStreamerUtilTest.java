@@ -1,4 +1,4 @@
-package com.willjsporter;
+package com.willjsporter.util;
 
 import org.junit.Test;
 
@@ -18,8 +18,6 @@ public class FileStreamerUtilTest {
     List<Integer> expectedFileContents = List.of(1, 2, 5, 6, 2, 4, 200);
 
     assertThat(fileStream, is(expectedFileContents));
-//    boolean doFileContentsMatchExpectedList = fileStream.allMatch(expectedFileContents::contains);
-//    assertTrue(doFileContentsMatchExpectedList);
   }
 
   @Test

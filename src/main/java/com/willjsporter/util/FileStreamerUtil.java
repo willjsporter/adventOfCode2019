@@ -1,4 +1,4 @@
-package com.willjsporter;
+package com.willjsporter.util;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 
 public class FileStreamerUtil {
 
-    static List<Integer> streamFileInputAsIntegers(String filepath) {
+    public static List<Integer> streamFileInputAsIntegers(String filepath) {
         String projectRootDirectory = System.getProperty("user.dir") + "/";
         try {
             String fileContents = Files
