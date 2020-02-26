@@ -3,6 +3,9 @@ package com.willjsporter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.willjsporter.OperatorEnum.ADD;
+import static com.willjsporter.OperatorEnum.MULTIPLY;
+
 public class IntcodeProgram {
 
     private List<Integer> programInput;
@@ -22,17 +25,26 @@ public class IntcodeProgram {
         return programInput;
     }
 
-    public List<Integer> iterateProgram(int inputPosition) {
+    private List<Integer> iterateProgram(int inputPosition) {
          switch (programInput.get(inputPosition)) {
              case 1:
-                 programInput.set(programInput.get(inputPosition + 3), programInput.get(programInput.get(inputPosition + 1)) + programInput.get(programInput.get(inputPosition + 2)));
+                 executeOpcode(ADD, inputPosition);
                  break;
              case 2:
-                 programInput.set(programInput.get(inputPosition + 3), programInput.get(programInput.get(inputPosition + 1)) * programInput.get(programInput.get(inputPosition + 2)));
+                 executeOpcode(MULTIPLY, inputPosition);
                  break;
              default:
                  throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2 or 99");
          }
          return programInput;
+    }
+
+    private Integer executeOpcode(Operator operator, int inputPosition) {
+        return programInput.set(
+            programInput.get(inputPosition + 3),
+            operator.calculate(
+                programInput.get(programInput.get(inputPosition + 1)),
+                programInput.get(programInput.get(inputPosition + 2))
+            ));
     }
 }
