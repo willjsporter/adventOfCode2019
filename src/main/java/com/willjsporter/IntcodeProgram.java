@@ -27,7 +27,7 @@ public class IntcodeProgram {
         return programInput;
     }
 
-    private List<Integer> iterateProgram(int inputPosition) {
+    private void iterateProgram(int inputPosition) {
          switch (programInput.get(inputPosition)) {
              case 1:
                  executeOpcode(ADD, inputPosition);
@@ -38,11 +38,10 @@ public class IntcodeProgram {
              default:
                  throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2 or 99");
          }
-         return programInput;
     }
 
-    private Integer executeOpcode(Operator operator, int inputPosition) {
-        return programInput.set(
+    private void executeOpcode(Operator operator, int inputPosition) {
+        programInput.set(
             programInput.get(inputPosition + 3),
             operator.calculate(
                 programInput.get(programInput.get(inputPosition + 1)),
