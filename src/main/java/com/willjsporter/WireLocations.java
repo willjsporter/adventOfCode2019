@@ -23,11 +23,17 @@ public class WireLocations {
 
     private void convertSingleInstructionToCoordinates(String instruction) {
         switch(instruction.substring(0, 1)) {
+            case "R":
+                IntStream.range(0, Integer.parseInt(instruction.substring(1))).forEach(a -> wireLocations.add(getLastWireLocation().add(Coordinate.of(1, 0))));
+                break;
             case "L":
                 IntStream.range(0, Integer.parseInt(instruction.substring(1))).forEach(a -> wireLocations.add(getLastWireLocation().add(Coordinate.of(-1, 0))));
                 break;
             case "U":
                 IntStream.range(0, Integer.parseInt(instruction.substring(1))).forEach(a -> wireLocations.add(getLastWireLocation().add(Coordinate.of(0,1))));
+                break;
+            case "D":
+                IntStream.range(0, Integer.parseInt(instruction.substring(1))).forEach(a -> wireLocations.add(getLastWireLocation().add(Coordinate.of(0,-1))));
                 break;
             default: break;
         }
