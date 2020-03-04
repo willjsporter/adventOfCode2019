@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -38,5 +39,13 @@ public class FileStreamerUtil {
     public static IntStream fileLinesAsIntegers(String filepath) {
         return streamFileLines(filepath)
             .mapToInt(Integer::valueOf);
+    }
+
+    public static List<Stream<String>> streamFileInputAsDirections(String filepath) {
+        return streamFileLines(filepath)
+            .map(line -> Arrays.stream(
+                line.split(","))
+            )
+            .collect(Collectors.toList());
     }
 }
