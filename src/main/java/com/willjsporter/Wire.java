@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class WireLocations {
+public class Wire {
 
     private List<Coordinate> wireLocations = new ArrayList<>();
 
-    public WireLocations(Stream<String> wirePlacementInstructions) {
+    public Wire(Stream<String> wirePlacementInstructions) {
         convertInstructionsToCoordinates(wirePlacementInstructions);
     }
 
