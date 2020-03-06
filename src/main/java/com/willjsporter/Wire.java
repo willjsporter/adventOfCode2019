@@ -44,4 +44,12 @@ public class Wire {
             return wireLocations.get(wireLocations.size() -1);
         } else return Coordinate.of(0, 0);
     }
+
+    public Coordinate getIntersection(Wire secondWire) {
+        return this.wireLocations
+            .stream()
+            .filter(coord -> secondWire.wireLocations.contains(coord))
+            .findFirst()
+            .orElse(Coordinate.of(0, 0));
+    }
 }

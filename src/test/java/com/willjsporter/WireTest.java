@@ -38,4 +38,18 @@ public class WireTest {
                 Coordinate.of(-2, -3)
         )));
     }
+
+    @Test
+    public void givenTwoWiresThatDoNotIntersect_ShouldGiveCentreAsIntersectionPoint() {
+        Wire wiring1 = new Wire(Stream.of("L1"));
+        Wire wiring2 = new Wire(Stream.of("R1"));
+        assertThat(wiring1.getIntersection(wiring2), is(Coordinate.of(0, 0)));
+    }
+
+    @Test
+    public void givenTwoWiresThatIntersectOnce_ShouldGiveThatLocationAsIntersectionPoint() {
+        Wire wiring1 = new Wire(Stream.of("L1", "U1", "R5"));
+        Wire wiring2 = new Wire(Stream.of("R2", "U2"));
+        assertThat(wiring1.getIntersection(wiring2), is(Coordinate.of(2, 1)));
+    }
 }
