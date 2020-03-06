@@ -23,7 +23,7 @@ public class Coordinate extends Pair<Integer> {
     }
 
     public int manhattanLength() {
-        return this.x + this.y;
+        return Math.abs(this.x) + Math.abs(this.y);
     }
 
     @Override

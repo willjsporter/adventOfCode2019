@@ -49,4 +49,16 @@ public class WireIntegrationTest {
                 Coordinate.of(1, -2)
             )));
     }
+
+    @Test
+    public void givenInstructionsForTwoWiresFromFile_withMultipleIntersections_shouldBeAbleToDetermineClosestIntersectionPointToCentre() {
+        List<Stream<String>> wirePaths = FileStreamerUtil.streamFileInputAsDirections("src/test/resources/directionsTestInput.txt");
+        Wire firstWire = new Wire(wirePaths.get(0));
+        Wire secondWire = new Wire(wirePaths.get(1));
+
+        assertThat(firstWire.getMostCentralIntersection(secondWire),
+            is(Coordinate.of(-2, -2)));
+    }
+
+
 }

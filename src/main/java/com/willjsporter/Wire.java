@@ -17,6 +17,15 @@ public class Wire {
         return this.wireLocations;
     }
 
+    public Coordinate getMostCentralIntersection(Wire secondWire) {
+        return this.wireLocations
+            .stream()
+            .filter(coord -> secondWire.wireLocations.contains(coord))
+            .sorted()
+            .findFirst()
+            .orElse(Coordinate.of(0, 0));
+    }
+
     private void convertInstructionsToCoordinates( Stream<String> wirePlacementInstructions) {
         wirePlacementInstructions.forEach(this::convertSingleInstructionToCoordinates);
     }
@@ -43,13 +52,5 @@ public class Wire {
         if(wireLocations.size() > 0) {
             return wireLocations.get(wireLocations.size() -1);
         } else return Coordinate.of(0, 0);
-    }
-
-    public Coordinate getIntersection(Wire secondWire) {
-        return this.wireLocations
-            .stream()
-            .filter(coord -> secondWire.wireLocations.contains(coord))
-            .findFirst()
-            .orElse(Coordinate.of(0, 0));
     }
 }

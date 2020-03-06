@@ -43,13 +43,20 @@ public class WireTest {
     public void givenTwoWiresThatDoNotIntersect_ShouldGiveCentreAsIntersectionPoint() {
         Wire wiring1 = new Wire(Stream.of("L1"));
         Wire wiring2 = new Wire(Stream.of("R1"));
-        assertThat(wiring1.getIntersection(wiring2), is(Coordinate.of(0, 0)));
+        assertThat(wiring1.getMostCentralIntersection(wiring2), is(Coordinate.of(0, 0)));
     }
 
     @Test
     public void givenTwoWiresThatIntersectOnce_ShouldGiveThatLocationAsIntersectionPoint() {
         Wire wiring1 = new Wire(Stream.of("L1", "U1", "R5"));
         Wire wiring2 = new Wire(Stream.of("R2", "U2"));
-        assertThat(wiring1.getIntersection(wiring2), is(Coordinate.of(2, 1)));
+        assertThat(wiring1.getMostCentralIntersection(wiring2), is(Coordinate.of(2, 1)));
+    }
+
+    @Test
+    public void givenTwoWiresThatIntersectMultipleTimes_ShouldGiveClosestLocationToCentreAsIntersectionPoint() {
+        Wire wiring1 = new Wire(Stream.of("L1", "U5", "R5"));
+        Wire wiring2 = new Wire(Stream.of("U3", "L2", "D1", "R2", "D1", "L2"));
+        assertThat(wiring1.getMostCentralIntersection(wiring2), is(Coordinate.of(-1, 1)));
     }
 }
