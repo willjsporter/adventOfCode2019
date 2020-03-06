@@ -23,7 +23,7 @@ public class FileStreamerUtilTest {
   public void shouldPutListOfDirectionsFromFile_IntoAListOfStreams() {
     List<Stream<String>> fileStream = FileStreamerUtil.streamFileInputAsDirections("src/test/resources/directionsTestInput.txt");
 
-    List<String> expectedFirstDirections = List.of("U1","L3","U10","R1","D10");
+    List<String> expectedFirstDirections = List.of("U1","L3","D5","R1","U2");
     List<String> expectedSecondDirections = List.of("D3","L4","U1","R5");
 
     boolean doFirstDirectionsMatchExpectedList = fileStream.get(0).allMatch(expectedFirstDirections::contains);
