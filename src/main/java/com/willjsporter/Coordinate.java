@@ -1,5 +1,7 @@
 package com.willjsporter;
 
+import java.util.Objects;
+
 public class Coordinate extends Pair<Integer> {
     private int x;
     private int y;
@@ -27,12 +29,17 @@ public class Coordinate extends Pair<Integer> {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(getX(), getY());
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Coordinate)) return false;
         Coordinate pair = (Coordinate) o;
-        return getX() == pair.getX() &&
-            getY() == pair.getY();
+        return getX().equals(pair.getX()) &&
+            getY().equals(pair.getY());
     }
 
     @Override
