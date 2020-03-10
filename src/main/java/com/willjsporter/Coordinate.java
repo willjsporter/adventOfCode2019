@@ -29,6 +29,14 @@ public class Coordinate extends Pair<Integer> {
     }
 
     @Override
+    public String toString() {
+        return "Coordinate{" +
+            "x=" + x +
+            ", y=" + y +
+            '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(getX(), getY());
     }
