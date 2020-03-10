@@ -1,8 +1,10 @@
 package com.willjsporter;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -10,23 +12,26 @@ import static org.junit.Assert.*;
 
 public class WireTest {
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
     @Test
-    public void givenU2Path_thenShouldReturnPathAsListOfCoordinates() {
+    public void givenU2Path_thenShouldReturnPathAsSetOfCoordinates() {
         Wire wiring1 = new Wire(Stream.of("U2"));
-        assertThat(wiring1.getWirePath(), is(List.of(Coordinate.of(0, 1), Coordinate.of(0, 2))));
+        assertThat(wiring1.getWirePath(), is(Set.of(Coordinate.of(0, 1), Coordinate.of(0, 2))));
     }
 
     @Test
-    public void givenL2Path_thenShouldReturnPathAsListOfCoordinates() {
+    public void givenL2Path_thenShouldReturnPathAsSetOfCoordinates() {
         Wire wiring1 = new Wire(Stream.of("L2"));
-        assertThat(wiring1.getWirePath(), is(List.of(Coordinate.of(-1, 0), Coordinate.of(-2, 0))));
+        assertThat(wiring1.getWirePath(), is(Set.of(Coordinate.of(-1, 0), Coordinate.of(-2, 0))));
     }
 
     @Test
-    public void givenMultiDirectionalPath_thenShouldReturnPathAsListOfCoordinates() {
+    public void givenMultiDirectionalPath_thenShouldReturnPathAsSetOfCoordinates() {
         Wire wiring1 = new Wire(Stream.of("L2", "U1", "L1", "D4", "R1"));
         assertThat(wiring1.getWirePath(), is(
-            List.of(
+            Set.of(
                 Coordinate.of(-1, 0),
                 Coordinate.of(-2, 0),
                 Coordinate.of(-2, 1),
@@ -43,7 +48,9 @@ public class WireTest {
     public void givenTwoWiresThatDoNotIntersect_ShouldGiveCentreAsIntersectionPoint() {
         Wire wiring1 = new Wire(Stream.of("L1"));
         Wire wiring2 = new Wire(Stream.of("R1"));
-        assertThat(wiring1.getMostCentralIntersection(wiring2), is(Coordinate.of(0, 0)));
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("There is no intersection between the two wire.");
+        wiring1.getMostCentralIntersection(wiring2);
     }
 
     @Test

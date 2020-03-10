@@ -4,6 +4,7 @@ import com.willjsporter.util.FileStreamerUtil;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -18,7 +19,7 @@ public class WireIntegrationTest {
         Wire secondWire = new Wire(wirePaths.get(1));
 
         assertThat(firstWire.getWirePath(), is(
-            List.of(
+            Set.of(
                 Coordinate.of(0, 1),
                 Coordinate.of(-1, 1),
                 Coordinate.of(-2, 1),
@@ -33,7 +34,7 @@ public class WireIntegrationTest {
                 Coordinate.of(-2, -2)
             )));
         assertThat(secondWire.getWirePath(), is(
-            List.of(
+            Set.of(
                 Coordinate.of(0, -1),
                 Coordinate.of(0, -2),
                 Coordinate.of(0, -3),
@@ -45,7 +46,6 @@ public class WireIntegrationTest {
                 Coordinate.of(-3, -2),
                 Coordinate.of(-2, -2),
                 Coordinate.of(-1, -2),
-                Coordinate.of(0, -2),
                 Coordinate.of(1, -2)
             )));
     }
