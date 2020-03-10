@@ -16,10 +16,13 @@ class Main {
       long end = System.currentTimeMillis();
       System.out.println("second wire took " + (end - mid) + "ms to load");
 
-      Coordinate intersection = wire1.getMostCentralIntersection(wire2);
+      Coordinate intersection = wire1.getIntersectionPointWithLeastSteps(wire2);
+      Integer intersectionSteps = wire1.getNumberOfStepsToIntersectionWithLeastSteps(wire2);
+
       System.out.println("x = " + intersection.getX() + ", y = " + intersection.getY());
+      System.out.println("number of steps to reach intersection is: " + intersectionSteps);
       long intersectioncalctime = System.currentTimeMillis();
       System.out.println("intersection working time was " + (intersectioncalctime - end) + "millis");
-      System.out.println(Coordinate.of(-30, 776).manhattanLength());
+      System.out.println(intersection.manhattanLength());
     }
 }
