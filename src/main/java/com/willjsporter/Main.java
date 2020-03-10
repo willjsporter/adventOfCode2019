@@ -3,21 +3,23 @@ package com.willjsporter;
 import com.willjsporter.util.FileStreamerUtil;
 
 import java.util.List;
+import java.util.stream.Stream;
 
-public class Main {
-  public static void main(String[] args) {
-    List<Integer> day2Input = FileStreamerUtil.streamFileInputAsIntegers("puzzleInput/day2a.txt");
-    int _100TimesNounTimesVerb = 0;
-    for(int i = 0; i < day2Input.size(); i ++) {
-      for(int j = 0; j < day2Input.size(); j++) {
-        day2Input.set(1, i);
-        day2Input.set(2, j);
-        if (new IntcodeProgram(day2Input).run().get(0) == 19690720) {
-          _100TimesNounTimesVerb = 100 * day2Input.get(1) + day2Input.get(2);
-          break;
-        }
-      }
+class Main {
+    public static void main(String[] args) {
+      List<Stream<String>> wireInstructions = FileStreamerUtil.streamFileInputAsDirections("puzzleInput/day3a.txt");
+      long start = System.currentTimeMillis();
+      Wire wire1 = new Wire(wireInstructions.get(0));
+      long mid = System.currentTimeMillis();
+      System.out.println("first wire took " + (mid - start) + " ms to load");
+      Wire wire2 = new Wire(wireInstructions.get(1));
+      long end = System.currentTimeMillis();
+      System.out.println("second wire took " + (end - mid) + "ms to load");
+
+      Coordinate intersection = wire1.getMostCentralIntersection(wire2);
+      System.out.println("x = " + intersection.getX() + ", y = " + intersection.getY());
+      long intersectioncalctime = System.currentTimeMillis();
+      System.out.println("intersection working time was " + (intersectioncalctime - end) + "millis");
+      System.out.println(Coordinate.of(-30, 776).manhattanLength());
     }
-    System.out.println(_100TimesNounTimesVerb);
-  }
 }
