@@ -18,19 +18,19 @@ public class WireTest {
     @Test
     public void givenU2Path_thenShouldReturnPathAsSetOfCoordinates() {
         Wire wiring1 = new Wire(Stream.of("U2"));
-        assertThat(wiring1.getWirePath(), is(Set.of(Coordinate.of(0, 1), Coordinate.of(0, 2))));
+        assertThat(wiring1.getWirePath().keySet(), is(Set.of(Coordinate.of(0, 1), Coordinate.of(0, 2))));
     }
 
     @Test
     public void givenL2Path_thenShouldReturnPathAsSetOfCoordinates() {
         Wire wiring1 = new Wire(Stream.of("L2"));
-        assertThat(wiring1.getWirePath(), is(Set.of(Coordinate.of(-1, 0), Coordinate.of(-2, 0))));
+        assertThat(wiring1.getWirePath().keySet(), is(Set.of(Coordinate.of(-1, 0), Coordinate.of(-2, 0))));
     }
 
     @Test
     public void givenMultiDirectionalPath_thenShouldReturnPathAsSetOfCoordinates() {
         Wire wiring1 = new Wire(Stream.of("L2", "U1", "L1", "D4", "R1"));
-        assertThat(wiring1.getWirePath(), is(
+        assertThat(wiring1.getWirePath().keySet(), is(
             Set.of(
                 Coordinate.of(-1, 0),
                 Coordinate.of(-2, 0),

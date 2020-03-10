@@ -18,7 +18,7 @@ public class WireIntegrationTest {
         Wire firstWire = new Wire(wirePaths.get(0));
         Wire secondWire = new Wire(wirePaths.get(1));
 
-        assertThat(firstWire.getWirePath(), is(
+        assertThat(firstWire.getWirePath().keySet(), is(
             Set.of(
                 Coordinate.of(0, 1),
                 Coordinate.of(-1, 1),
@@ -33,7 +33,7 @@ public class WireIntegrationTest {
                 Coordinate.of(-2, -3),
                 Coordinate.of(-2, -2)
             )));
-        assertThat(secondWire.getWirePath(), is(
+        assertThat(secondWire.getWirePath().keySet(), is(
             Set.of(
                 Coordinate.of(0, -1),
                 Coordinate.of(0, -2),

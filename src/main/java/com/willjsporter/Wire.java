@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 public class Wire {
 
-    private Set<Coordinate> wireLocations = new HashSet<>();
+    private Map<Coordinate, Integer> wireLocations = new HashMap<>();
     private Coordinate lastCoordinate;
 
     public Wire(Stream<String> wirePlacementInstructions) {
@@ -14,14 +14,15 @@ public class Wire {
         convertInstructionsToCoordinates(wirePlacementInstructions);
     }
 
-    public Set<Coordinate> getWirePath() {
+    public Map<Coordinate, Integer> getWirePath() {
         return this.wireLocations;
     }
 
     public Coordinate getMostCentralIntersection(Wire secondWire) {
         return this.wireLocations
+            .keySet()
             .stream()
-            .filter(coord -> secondWire.wireLocations.contains(coord))
+            .filter(coord -> secondWire.wireLocations.get(coord) != null)
             .sorted()
             .findFirst()
             .orElseThrow(() -> new RuntimeException("There is no intersection between the two wire."));
@@ -56,7 +57,7 @@ public class Wire {
         IntStream.range(0, Integer.parseInt(instruction.substring(1)))
             .forEach(numberInRange -> {
             this.lastCoordinate = getLastCoordinate().add(Coordinate.of(xIncrement, yIncrement));
-            wireLocations.add(this.lastCoordinate);
+            wireLocations.put(this.lastCoordinate, 0);
         });
     }
 }
