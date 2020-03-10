@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class WireIntegrationTest {
 
@@ -56,9 +56,18 @@ public class WireIntegrationTest {
         Wire firstWire = new Wire(wirePaths.get(0));
         Wire secondWire = new Wire(wirePaths.get(1));
 
-        assertThat(firstWire.getMostCentralIntersection(secondWire),
-            is(Coordinate.of(-2, -2)));
+        assertThat(
+            firstWire.getIntersectionPointWithLeastSteps(secondWire),
+            is(Coordinate.of(-3, -3))
+        );
     }
 
+    @Test
+    public void givenInstructionsForTwoWiresFromFile_withMultipleIntersections_shouldTellLeastStepsToAnIntersectionPoint() {
+        List<Stream<String>> wirePaths = FileStreamerUtil.streamFileInputAsDirections("src/test/resources/directionsTestInput.txt");
+        Wire firstWire = new Wire(wirePaths.get(0));
+        Wire secondWire = new Wire(wirePaths.get(1));
 
+        assertThat(firstWire.getNumberOfStepsToIntersectionWithLeastSteps(secondWire), is(14));
+    }
 }
