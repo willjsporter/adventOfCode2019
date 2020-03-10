@@ -38,29 +38,25 @@ public class Wire {
     private void convertSingleInstructionToCoordinates(String instruction) {
         switch(instruction.substring(0, 1)) {
             case "R":
-                IntStream.range(0, Integer.parseInt(instruction.substring(1))).forEach(a -> {
-                    this.lastCoordinate = getLastCoordinate().add(Coordinate.of(1, 0));
-                    wireLocations.add(this.lastCoordinate);
-                });
+                addNCoordinatesWithGivenIncrement(instruction, 1, 0);
                 break;
             case "L":
-                IntStream.range(0, Integer.parseInt(instruction.substring(1))).forEach(a -> {
-                    this.lastCoordinate = getLastCoordinate().add(Coordinate.of(-1, 0));
-                    wireLocations.add(this.lastCoordinate);
-                });
+                addNCoordinatesWithGivenIncrement(instruction, -1, 0);
                 break;
             case "U":
-                IntStream.range(0, Integer.parseInt(instruction.substring(1))).forEach(a -> {
-                    this.lastCoordinate = getLastCoordinate().add(Coordinate.of(0, 1));
-                    wireLocations.add(this.lastCoordinate);
-                });
+                addNCoordinatesWithGivenIncrement(instruction, 0, 1);
                 break;
             case "D":
-                IntStream.range(0, Integer.parseInt(instruction.substring(1))).forEach(a -> {
-                    this.lastCoordinate = getLastCoordinate().add(Coordinate.of(0, -1));
-                    wireLocations.add(this.lastCoordinate);
-                });
+                addNCoordinatesWithGivenIncrement(instruction, 0, -1);
             default: break;
         }
+    }
+
+    private void addNCoordinatesWithGivenIncrement(String instruction, int xIncrement, int yIncrement) {
+        IntStream.range(0, Integer.parseInt(instruction.substring(1)))
+            .forEach(numberInRange -> {
+            this.lastCoordinate = getLastCoordinate().add(Coordinate.of(xIncrement, yIncrement));
+            wireLocations.add(this.lastCoordinate);
+        });
     }
 }
