@@ -27,4 +27,11 @@ public class PasswordCrackerTest {
         assertTrue(passwordCracker.checkPassword(111224));
         assertFalse(passwordCracker.checkPassword(123456));
     }
+
+    @Test
+    public void digitsInThePasswordShouldAlwaysIncreaseFromLeftToRight() {
+        assertTrue(passwordCracker.checkPassword(123345));
+        assertFalse(passwordCracker.checkPassword(12334567));
+        assertFalse(passwordCracker.checkPassword(113234));
+    }
 }
