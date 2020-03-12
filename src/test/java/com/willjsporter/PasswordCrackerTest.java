@@ -17,8 +17,15 @@ public class PasswordCrackerTest {
     @Test
     public void atLeastTwoAdjacentDigitsShouldBeTheSame() {
         assertTrue(PasswordCracker.checkPassword(112345));
-        assertTrue(PasswordCracker.checkPassword(111224));
+        assertTrue(PasswordCracker.checkPassword(112245));
         assertFalse(PasswordCracker.checkPassword(123456));
+    }
+
+    @Test
+    public void thereShouldBeADigitThatAppearsExactlyTwiceInARow() {
+        assertTrue(PasswordCracker.checkPassword(112233));
+        assertFalse(PasswordCracker.checkPassword(123444));
+        assertTrue(PasswordCracker.checkPassword(111133));
     }
 
     @Test

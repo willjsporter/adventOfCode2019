@@ -18,12 +18,26 @@ public class PasswordCracker {
     }
 
     private static boolean checkPasswordHasRepeatedCharacter(int[] passwordArray) {
-        for(int i = 1; i < passwordArray.length; i ++) {
-            if(passwordArray[i - 1] == passwordArray[i]) {
+        for(int i = 0; i < passwordArray.length - 1; i ++) {
+            if(arrayIndexIsEqualToFollowingIndexButNotIndicesEitherSide(passwordArray, i)) {
                 return true;
             }
         }
         return false;
+    }
+
+    private static boolean arrayIndexIsEqualToFollowingIndexButNotIndicesEitherSide(int[] passwordArray, int i) {
+        if(i == 0) {
+            return passwordArray[i] == passwordArray[i + 1] && passwordArray[i + 1] != passwordArray[i + 2];
+        }
+        else if(i == passwordArray.length - 2) {
+            return passwordArray[i] == passwordArray[i + 1] && passwordArray[i - 1] != passwordArray[i];
+        }
+        else {
+            return passwordArray[i] == passwordArray[i + 1]
+                && passwordArray[i - 1] != passwordArray[i]
+                && passwordArray[i + 1] != passwordArray[i + 2];
+        }
     }
 
     private static boolean checkPasswordAscending(int[] passwordArray) {
