@@ -16,8 +16,15 @@ public class PasswordCrackerTest {
 
     @Test
     public void shouldEnsureThatPasswordIsSixCharacters() {
-        assertFalse(passwordCracker.checkPassword(12345));
-        assertTrue(passwordCracker.checkPassword(123456));
-        assertFalse(passwordCracker.checkPassword(1234567));
+        assertFalse(passwordCracker.checkPassword(12344));
+        assertTrue(passwordCracker.checkPassword(123455));
+        assertFalse(passwordCracker.checkPassword(1234566));
+    }
+
+    @Test
+    public void atLeastTwoAdjacentDigitsShouldBeTheSame() {
+        assertTrue(passwordCracker.checkPassword(112345));
+        assertTrue(passwordCracker.checkPassword(111224));
+        assertFalse(passwordCracker.checkPassword(123456));
     }
 }
