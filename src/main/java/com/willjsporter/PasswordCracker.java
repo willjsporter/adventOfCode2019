@@ -3,7 +3,7 @@ package com.willjsporter;
 public class PasswordCracker {
 
 
-    public boolean checkPassword(Integer passwordToCheck) {
+    public static boolean checkPassword(Integer passwordToCheck) {
         if (passwordIsSixDigits(passwordToCheck)) {
             int[] passwordArray = passwordToArray(passwordToCheck);
             if (checkPasswordHasRepeatedCharacter(passwordArray)) {
@@ -13,11 +13,11 @@ public class PasswordCracker {
         return false;
     }
 
-    private boolean passwordIsSixDigits(Integer passwordToCheck) {
+    private static boolean passwordIsSixDigits(Integer passwordToCheck) {
         return passwordToCheck >= 100000 && passwordToCheck <= 999999;
     }
 
-    private boolean checkPasswordHasRepeatedCharacter(int[] passwordArray) {
+    private static boolean checkPasswordHasRepeatedCharacter(int[] passwordArray) {
         for(int i = 1; i < passwordArray.length; i ++) {
             if(passwordArray[i - 1] == passwordArray[i]) {
                 return true;
@@ -26,7 +26,7 @@ public class PasswordCracker {
         return false;
     }
 
-    private boolean checkPasswordAscending(int[] passwordArray) {
+    private static boolean checkPasswordAscending(int[] passwordArray) {
         for(int i = 1; i < passwordArray.length; i ++) {
             if(passwordArray[i - 1] > passwordArray[i]) {
                 return false;
@@ -35,7 +35,7 @@ public class PasswordCracker {
         return true;
     }
 
-    private int[] passwordToArray(Integer passwordToCheck) {
+    private static int[] passwordToArray(Integer passwordToCheck) {
         return String.valueOf(passwordToCheck).chars().map(num -> num - '0').toArray();
     }
 }
