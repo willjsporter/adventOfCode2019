@@ -1,4 +1,4 @@
-package com.willjsporter.operator;
+package com.willjsporter.intcode.operator;
 
 public enum OperatorEnum implements Operator {
     ADD {

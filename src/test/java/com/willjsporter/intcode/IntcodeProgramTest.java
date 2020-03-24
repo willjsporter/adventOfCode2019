@@ -1,4 +1,4 @@
-package com.willjsporter;
+package com.willjsporter.intcode;
 
 import com.willjsporter.util.InputReader;
 import com.willjsporter.util.SystemOutResource;

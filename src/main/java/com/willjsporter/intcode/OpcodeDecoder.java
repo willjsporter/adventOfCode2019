@@ -1,4 +1,4 @@
-package com.willjsporter;
+package com.willjsporter.intcode;
 
 public class OpcodeDecoder {
 

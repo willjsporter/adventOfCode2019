@@ -1,12 +1,12 @@
-package com.willjsporter;
+package com.willjsporter.intcode;
 
-import com.willjsporter.operator.Operator;
+import com.willjsporter.intcode.operator.Operator;
 import com.willjsporter.util.InputReader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.willjsporter.operator.OperatorEnum.*;
+import static com.willjsporter.intcode.operator.OperatorEnum.*;
 
 public class IntcodeProgram {
 
