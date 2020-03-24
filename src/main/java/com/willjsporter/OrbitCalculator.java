@@ -22,14 +22,16 @@ public class OrbitCalculator {
     public int countDirectAndIndirectOrbits() {
         return this.directOrbitTracker
             .keySet().stream()
-            .mapToInt(key -> {
-                int orbitsForEntry = 0;
-                while (directOrbitTracker.get(key) != null) {
-                    orbitsForEntry += 1;
-                    key = directOrbitTracker.get(key);
-                }
-                return orbitsForEntry;
-            })
+            .mapToInt(this::getNumberOfOrbitsForSingleObject)
             .sum();
+    }
+
+    private int getNumberOfOrbitsForSingleObject(String objectName) {
+            int orbitsForEntry = 0;
+            while (directOrbitTracker.get(objectName) != null) {
+                orbitsForEntry += 1;
+                objectName = directOrbitTracker.get(objectName);
+            }
+            return orbitsForEntry;
     }
 }
