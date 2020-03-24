@@ -12,6 +12,12 @@ public enum OperatorEnum implements Operator {
         public int calculate(int a, int b) {
             return a * b;
         }
+    },
+    EQUALS {
+        @Override
+        public int calculate(int a, int b) {
+            return a == b ? 1 : 0;
+        }
     }
 }
 

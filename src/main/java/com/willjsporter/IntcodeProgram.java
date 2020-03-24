@@ -6,8 +6,7 @@ import com.willjsporter.util.InputReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.willjsporter.operator.OperatorEnum.ADD;
-import static com.willjsporter.operator.OperatorEnum.MULTIPLY;
+import static com.willjsporter.operator.OperatorEnum.*;
 
 public class IntcodeProgram {
 
@@ -32,6 +31,7 @@ public class IntcodeProgram {
 
     private void iterateProgram(int inputPosition) {
         OpcodeDecoder opcodeDecoder = new OpcodeDecoder(programInput.get(inputPosition));
+        int numberToOutput;
         switch (opcodeDecoder.getOpcode()) {
              case 1:
                  executeOpcode(ADD, inputPosition, opcodeDecoder);
@@ -46,9 +46,13 @@ public class IntcodeProgram {
                  this.inputPosition += 2;
                  break;
              case 4:
-                 int numberToOutput = opcodeDecoder.getParam1Mode() == 1 ? programInput.get(inputPosition + 1) : programInput.get(programInput.get(inputPosition + 1));
+                 numberToOutput = opcodeDecoder.getParam1Mode() == 1 ? programInput.get(inputPosition + 1) : programInput.get(programInput.get(inputPosition + 1));
                  System.out.println(numberToOutput);
                  this.inputPosition += 2;
+                 break;
+             case 8:
+                 executeOpcode(EQUALS, inputPosition, opcodeDecoder);
+                 this.inputPosition += 4;
                  break;
              default:
                  throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
