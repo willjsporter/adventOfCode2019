@@ -33,33 +33,38 @@ public class IntcodeProgram {
         OpcodeDecoder opcodeDecoder = new OpcodeDecoder(programInput.get(inputPosition));
         int numberToOutput;
         switch (opcodeDecoder.getOpcode()) {
-             case 1:
-                 executeOpcode(ADD, inputPosition, opcodeDecoder);
-                 this.inputPosition += 4;
-                 break;
-             case 2:
-                 executeOpcode(MULTIPLY, inputPosition, opcodeDecoder);
-                 this.inputPosition += 4;
-                 break;
-             case 3:
-                 programInput.set(programInput.get(inputPosition + 1), this.inputReader.readInputAsInt());
-                 this.inputPosition += 2;
-                 break;
-             case 4:
-                 numberToOutput = opcodeDecoder.getParam1Mode() == 1 ? programInput.get(inputPosition + 1) : programInput.get(programInput.get(inputPosition + 1));
-                 System.out.println(numberToOutput);
-                 this.inputPosition += 2;
-                 break;
-             case 7:
-                 executeOpcode(LESS_THAN, inputPosition, opcodeDecoder);
-                 this.inputPosition += 4;
-                 break;
-             case 8:
-                 executeOpcode(EQUALS, inputPosition, opcodeDecoder);
-                 this.inputPosition += 4;
-                 break;
-             default:
-                 throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
+            case 1:
+                executeOpcode(ADD, inputPosition, opcodeDecoder);
+                this.inputPosition += 4;
+                break;
+            case 2:
+                executeOpcode(MULTIPLY, inputPosition, opcodeDecoder);
+                this.inputPosition += 4;
+                break;
+            case 3:
+                programInput.set(programInput.get(inputPosition + 1), this.inputReader.readInputAsInt());
+                this.inputPosition += 2;
+                break;
+            case 4:
+                numberToOutput = opcodeDecoder.getParam1Mode() == 1 ? programInput.get(inputPosition + 1) : programInput.get(programInput.get(inputPosition + 1));
+                System.out.println(numberToOutput);
+                this.inputPosition += 2;
+                break;
+            case 5:
+                this.inputPosition = programInput.get(programInput.get(inputPosition + 1)) == 0
+                    ? inputPosition + 3
+                    : programInput.get(programInput.get(inputPosition + 2));
+                break;
+            case 7:
+                executeOpcode(LESS_THAN, inputPosition, opcodeDecoder);
+                this.inputPosition += 4;
+                break;
+            case 8:
+                executeOpcode(EQUALS, inputPosition, opcodeDecoder);
+                this.inputPosition += 4;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
         }
     }
 

@@ -133,4 +133,23 @@ public class IntcodeProgramTest {
         assertThat(sysOut.asString(), is("0\n"));
     }
 
+    @Test
+    public void opcode5ChangesPointerToSecondParameterPositionIfFirstParamIsNot0_PositionMode() {
+        when(inputReader.readInputAsInt()).thenReturn(9);
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(3,12,5,12,15,2,13,14,13,4,13,99,-1,1,0,9), inputReader);
+        assertThat(intcodeProgram.run(), is(List.of(3,12,5,12,15,2,13,14,13,4,13,99,9,1,0,9)));
+        assertThat(sysOut.asString(), is("1\n"));
+    }
+
+    @Test
+    public void opcode5SkipsToNextOpcodeIfFirstParamIs0_PositionMode() {
+        when(inputReader.readInputAsInt()).thenReturn(0);
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(3,12,5,12,15,2,13,14,13,4,13,99,-1,1,0,9), inputReader);
+        assertThat(intcodeProgram.run(), is(List.of(3,12,5,12,15,2,13,14,13,4,13,99,0,0,0,9)));
+        assertThat(sysOut.asString(), is("0\n"));
+    }
+
 }
+
+//3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9 (using position mode)
+//    3,3,1105,-1,9,1101,0,0,12,4,12,99,1 (using immediate mode)
