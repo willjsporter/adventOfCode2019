@@ -51,9 +51,10 @@ public class IntcodeProgram {
                 this.inputPosition += 2;
                 break;
             case 5:
-                this.inputPosition = programInput.get(programInput.get(inputPosition + 1)) == 0
-                    ? inputPosition + 3
-                    : programInput.get(programInput.get(inputPosition + 2));
+                jumpPointer(inputPosition, opcodeDecoder, false);
+                break;
+            case 6:
+                jumpPointer(inputPosition, opcodeDecoder, true);
                 break;
             case 7:
                 executeOpcode(LESS_THAN, inputPosition, opcodeDecoder);
@@ -68,14 +69,28 @@ public class IntcodeProgram {
         }
     }
 
+    private void jumpPointer(int inputPosition, OpcodeDecoder opcodeDecoder, boolean isOpcode6) {
+        int param1 = paramCalculator(inputPosition, opcodeDecoder.getParam1Mode(), 1);
+        int param2 = paramCalculator(inputPosition, opcodeDecoder.getParam2Mode(), 2);
+        boolean pointerShouldJump = (param1 == 0) == isOpcode6;
+
+        this.inputPosition = pointerShouldJump
+            ? param2
+            : inputPosition + 3;
+    }
+
     private void executeOpcode(Operator operator, int inputPosition, OpcodeDecoder opcodeDecoder) {
-        int param1 = opcodeDecoder.getParam1Mode() == 1 ? programInput.get(inputPosition + 1) : programInput.get(programInput.get(inputPosition + 1));
-        int param2 = opcodeDecoder.getParam2Mode() == 1 ? programInput.get(inputPosition + 2) : programInput.get(programInput.get(inputPosition + 2));
+        int param1 = paramCalculator(inputPosition, opcodeDecoder.getParam1Mode(), 1);
+        int param2 = paramCalculator(inputPosition, opcodeDecoder.getParam2Mode(), 2);
         programInput.set(
             programInput.get(inputPosition + 3),
             operator.calculate(
                 param1,
                 param2
             ));
+    }
+
+    private Integer paramCalculator(int inputPosition, int param1Mode, int paramNumber) {
+        return param1Mode == 1 ? programInput.get(inputPosition + paramNumber) : programInput.get(programInput.get(inputPosition + paramNumber));
     }
 }
