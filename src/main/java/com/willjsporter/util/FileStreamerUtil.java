@@ -27,7 +27,7 @@ public class FileStreamerUtil {
         }
     }
 
-    static Stream<String> streamFileLines(String filepath) {
+    public static Stream<String> streamFileLines(String filepath) {
         String projectRootDirectory = System.getProperty("user.dir") + "/";
         try {
             return Files.lines(Paths.get(projectRootDirectory + filepath));
