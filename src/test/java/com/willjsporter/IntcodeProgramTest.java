@@ -117,8 +117,20 @@ public class IntcodeProgramTest {
         assertThat(sysOut.asString(), is("0\n"));
     }
 
-// done   3,9,8,9,10,9,4,9,99,-1,8 - Using position mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
-//        3,9,7,9,10,9,4,9,99,-1,8 - Using position mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
-// done   3,3,1108,-1,8,3,4,3,99 - Using immediate mode, consider whether the input is equal to 8; output 1 (if it is) or 0 (if it is not).
-//        3,3,1107,-1,8,3,4,3,99 - Using immediate mode, consider whether the input is less than 8; output 1 (if it is) or 0 (if it is not).
+    @Test
+    public void opcode7Stores1IfFirstParameterIsLessThanSecondParam_ImmediateMode() {
+        when(inputReader.readInputAsInt()).thenReturn(2);
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(3,3,1107,-1,8,3,4,3,99), inputReader);
+        assertThat(intcodeProgram.run(), is(List.of(3,3,1107,1,8,3,4,3,99)));
+        assertThat(sysOut.asString(), is("1\n"));
+    }
+
+    @Test
+    public void opcode7Stores0IfFirstParameterIsNotLessThanSecondParam_PositionMode() {
+        when(inputReader.readInputAsInt()).thenReturn(9);
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(3,9,7,9,10,9,4,9,99,-1,8), inputReader);
+        assertThat(intcodeProgram.run(), is(List.of(3,9,7,9,10,9,4,9,99,0,8)));
+        assertThat(sysOut.asString(), is("0\n"));
+    }
+
 }

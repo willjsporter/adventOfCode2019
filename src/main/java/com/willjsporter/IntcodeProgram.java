@@ -50,6 +50,10 @@ public class IntcodeProgram {
                  System.out.println(numberToOutput);
                  this.inputPosition += 2;
                  break;
+             case 7:
+                 executeOpcode(LESS_THAN, inputPosition, opcodeDecoder);
+                 this.inputPosition += 4;
+                 break;
              case 8:
                  executeOpcode(EQUALS, inputPosition, opcodeDecoder);
                  this.inputPosition += 4;

@@ -13,6 +13,12 @@ public enum OperatorEnum implements Operator {
             return a * b;
         }
     },
+    LESS_THAN {
+        @Override
+        public int calculate(int a, int b) {
+            return a < b ? 1 : 0;
+        }
+    },
     EQUALS {
         @Override
         public int calculate(int a, int b) {
