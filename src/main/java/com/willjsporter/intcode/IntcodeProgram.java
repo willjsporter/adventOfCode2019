@@ -4,6 +4,7 @@ import com.willjsporter.intcode.operator.Operator;
 import com.willjsporter.util.InputReader;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.willjsporter.intcode.operator.OperatorEnum.*;
@@ -11,52 +12,55 @@ import static com.willjsporter.intcode.operator.OperatorEnum.*;
 public class IntcodeProgram {
 
     private List<Integer> programInput;
+    private List<Integer> prespecifiedInput;
+    private int programPosition;
     private int inputPosition;
     private InputReader inputReader;
 
-    public IntcodeProgram(List<Integer> programInput, InputReader inputReader) {
+    public IntcodeProgram(List<Integer> programInput, InputReader inputReader, Integer ...prespecifiedInput) {
         this.programInput = new ArrayList<>(programInput);
         this.inputReader = inputReader;
+        this.programPosition = 0;
         this.inputPosition = 0;
-
+        this.prespecifiedInput = Arrays.asList(prespecifiedInput);
     }
 
     public List<Integer> run() {
-        while(this.inputPosition < programInput.size()) {
-            if(programInput.get(inputPosition) == 99) { break; }
-            iterateProgram(this.inputPosition);
+        while(this.programPosition < programInput.size()) {
+            if(programInput.get(programPosition) == 99) { break; }
+            iterateProgram(this.programPosition);
         }
         return programInput;
     }
 
-    private void iterateProgram(int inputPosition) {
-        OpcodeDecoder opcodeDecoder = new OpcodeDecoder(programInput.get(inputPosition));
+    private void iterateProgram(int programPosition) {
+        OpcodeDecoder opcodeDecoder = new OpcodeDecoder(programInput.get(programPosition));
         switch (opcodeDecoder.getOpcode()) {
             case 1:
-                executeOpcode(ADD, inputPosition, opcodeDecoder);
+                executeOpcode(ADD, programPosition, opcodeDecoder);
                 break;
             case 2:
-                executeOpcode(MULTIPLY, inputPosition, opcodeDecoder);
+                executeOpcode(MULTIPLY, programPosition, opcodeDecoder);
                 break;
             case 3:
-                programInput.set(programInput.get(inputPosition + 1), this.inputReader.readInputAsInt());
-                this.inputPosition += 2;
+                programInput.set(programInput.get(programPosition + 1), this.inputReader.readInputAsInt());
+                this.programPosition += 2;
                 break;
             case 4:
-                System.out.println(paramCalculator(inputPosition, opcodeDecoder.getParam1Mode(), 1));
-                this.inputPosition += 2;
+                System.out.println(paramCalculator(programPosition, opcodeDecoder.getParam1Mode(), 1));
+                this.programPosition += 2;
                 break;
             case 5:
-                jumpPointer(inputPosition, opcodeDecoder, false);
+                jumpPointer(programPosition, opcodeDecoder, false);
                 break;
             case 6:
-                jumpPointer(inputPosition, opcodeDecoder, true);
+                jumpPointer(programPosition, opcodeDecoder, true);
                 break;
             case 7:
-                executeOpcode(LESS_THAN, inputPosition, opcodeDecoder);
+                executeOpcode(LESS_THAN, programPosition, opcodeDecoder);
                 break;
             case 8:
-                executeOpcode(EQUALS, inputPosition, opcodeDecoder);
+                executeOpcode(EQUALS, programPosition, opcodeDecoder);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
@@ -68,7 +72,7 @@ public class IntcodeProgram {
         int param2 = paramCalculator(inputPosition, opcodeDecoder.getParam2Mode(), 2);
         boolean pointerShouldJump = (param1 == 0) == isOpcode6;
 
-        this.inputPosition = pointerShouldJump
+        this.programPosition = pointerShouldJump
             ? param2
             : inputPosition + 3;
     }
@@ -82,7 +86,7 @@ public class IntcodeProgram {
                 param1,
                 param2
             ));
-        this.inputPosition += 4;
+        this.programPosition += 4;
     }
 
     private Integer paramCalculator(int inputPosition, int param1Mode, int paramNumber) {
