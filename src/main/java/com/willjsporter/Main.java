@@ -1,12 +1,15 @@
 package com.willjsporter;
 
-import java.util.stream.IntStream;
+import com.willjsporter.util.FileStreamerUtil;
+import com.willjsporter.util.InputReader;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.List;
 
 class Main {
     public static void main(String[] args) {
-      long start = System.currentTimeMillis();
-      System.out.println(IntStream.rangeClosed(273025, 767253).filter(PasswordCracker::checkPassword).count());
-      long end = System.currentTimeMillis();
-      System.out.println("solution took " + (end - start) + " ms to load");
+        List<Integer> programInput = FileStreamerUtil.streamFileInputAsIntegers("puzzleInput/day5a.txt");
+        new IntcodeProgram(programInput, new InputReader(new BufferedReader(new InputStreamReader(System.in)))).run();
     }
 }
