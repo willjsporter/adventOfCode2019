@@ -27,4 +27,19 @@ public class OrbitCalculatorTest {
         OrbitCalculator orbitCalculator = new OrbitCalculator(orbitStream);
         assertThat(orbitCalculator.countDirectAndIndirectOrbits(), is(11));
     }
+
+    @Test
+    public void shouldCountNumberOfOrbitalTransfersRequiredToGetFromOriginalOrbitToTheOrbitOfAnotherObject() {
+        Stream<String> orbitStream = Stream.of("AAA)BBB", "BBB)CCC", "BBB)DDD", "DDD)EEE", "CCC)GGG", "GGG)HHH");
+        OrbitCalculator orbitCalculator = new OrbitCalculator(orbitStream);
+        assertThat(orbitCalculator.calculateOrbitalTransfers("HHH", "EEE"), is(3));
+
+//      aaa
+//            bbb
+//                  ccc
+//                          ggg
+//                                  hhh
+//                  ddd
+//                          eee
+    }
 }
