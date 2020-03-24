@@ -31,30 +31,38 @@ public class IntcodeProgram {
     }
 
     private void iterateProgram(int inputPosition) {
-         switch (programInput.get(inputPosition)) {
+        OpcodeDecoder opcodeDecoder = new OpcodeDecoder(programInput.get(inputPosition));
+        switch (opcodeDecoder.getOpcode()) {
              case 1:
-                 executeOpcode(ADD, inputPosition);
+                 executeOpcode(ADD, inputPosition, opcodeDecoder);
                  this.inputPosition += 4;
                  break;
              case 2:
-                 executeOpcode(MULTIPLY, inputPosition);
+                 executeOpcode(MULTIPLY, inputPosition, opcodeDecoder);
                  this.inputPosition += 4;
                  break;
              case 3:
                  programInput.set(programInput.get(inputPosition + 1), this.inputReader.readInputAsInt());
                  this.inputPosition += 2;
                  break;
+             case 4:
+                 int numberToOutput = opcodeDecoder.getParam1Mode() == 1 ? programInput.get(inputPosition + 1) : programInput.get(programInput.get(inputPosition + 1));
+                 System.out.println(numberToOutput);
+                 this.inputPosition += 2;
+                 break;
              default:
-                 throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2 or 99");
-         }
+                 throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
+        }
     }
 
-    private void executeOpcode(Operator operator, int inputPosition) {
+    private void executeOpcode(Operator operator, int inputPosition, OpcodeDecoder opcodeDecoder) {
+        int param1 = opcodeDecoder.getParam1Mode() == 1 ? programInput.get(inputPosition + 1) : programInput.get(programInput.get(inputPosition + 1));
+        int param2 = opcodeDecoder.getParam2Mode() == 1 ? programInput.get(inputPosition + 2) : programInput.get(programInput.get(inputPosition + 2));
         programInput.set(
             programInput.get(inputPosition + 3),
             operator.calculate(
-                programInput.get(programInput.get(inputPosition + 1)),
-                programInput.get(programInput.get(inputPosition + 2))
+                param1,
+                param2
             ));
     }
 }

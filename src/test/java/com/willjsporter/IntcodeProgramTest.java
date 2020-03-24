@@ -1,6 +1,7 @@
 package com.willjsporter;
 
 import com.willjsporter.util.InputReader;
+import com.willjsporter.util.SystemOutResource;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,6 +20,8 @@ public class IntcodeProgramTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    @Rule public SystemOutResource sysOut = new SystemOutResource();
+
     @Test
     public void givenOpcode1_andOutputPosition2_thenProgramShouldAddTheInputs_andPutResultInPosition2() {
         IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1, 2, 0, 2), inputReader);
@@ -32,10 +35,17 @@ public class IntcodeProgramTest {
     }
 
     @Test
-    public void givenOpcode3_andInputParameter0_thenProgramShouldPut0ResultInPosition0() {
-        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(3, 1), inputReader);
+    public void givenOpcode3_andInputParameter1_thenProgramShouldPutInputInPosition1() {
         when(inputReader.readInputAsInt()).thenReturn(19);
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(3, 1), inputReader);
         assertThat(intcodeProgram.run(), is(List.of(3, 19)));
+    }
+
+    @Test
+    public void givenOpcode4_andOutputParameter1_thenProgramShouldOutputValueOfIndexEqualToValueAtPosition1_ThenHalt() {
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(4, 1), inputReader);
+        assertThat(intcodeProgram.run(), is(List.of(4, 1)));
+        assertThat(sysOut.asString(), is("1\n"));
     }
 
     @Test
@@ -64,15 +74,30 @@ public class IntcodeProgramTest {
 
     @Test
     public void givenMultipleOpcodes_thenProgramShouldIterateThroughThem3() {
-        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1, 1, 1, 4, 99, 5, 6, 0, 99), inputReader);
-        assertThat(intcodeProgram.run(), is(List.of(30, 1, 1, 4, 2, 5, 6, 0, 99)));
+        when(inputReader.readInputAsInt()).thenReturn(19);
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1, 1, 2, 4, 99, 5, 4, 8, 99), inputReader);
+        assertThat(intcodeProgram.run(), is(List.of(1, 1, 2, 4, 3, 19, 4, 8, 99)));
+        assertThat(sysOut.asString(), is("99\n"));
     }
 
     @Test
     public void givenAnInvalidOpCode_theProgramShouldThrowAnException() {
-        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(4, 1, 2, 3), inputReader);
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(12, 1, 2, 3), inputReader);
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid opcode: Opcode must be either 1, 2 or 99");
+        thrown.expectMessage("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
         intcodeProgram.run();
+    }
+
+    @Test
+    public void givenAnOpCodeWithParameterModes_theProgramShouldProcessTheInstructionBasedOnTheParamModes() {
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1002,4,3,4,33), inputReader);
+        assertThat(intcodeProgram.run(), is(List.of(1002,4,3,4,99)));
+    }
+
+    @Test
+    public void shouldBeAbleToHandleMultipleOpCodeWithParameterModes() {
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(1101, 4, 3, 2, 104, 2, 1002, 2, 4, 7), inputReader);
+        assertThat(intcodeProgram.run(), is(List.of(1101, 4, 7, 2, 104, 2, 1002, 28, 4, 7)));
+        assertThat(sysOut.asString(), is("2\n"));
     }
 }
