@@ -20,7 +20,8 @@ public class IntcodeProgramTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @Rule public SystemOutResource sysOut = new SystemOutResource();
+    @Rule
+    public SystemOutResource sysOut = new SystemOutResource();
 
     @Test
     public void givenOpcode1_andOutputPosition2_thenProgramShouldAddTheInputs_andPutResultInPosition2() {
@@ -173,7 +174,10 @@ public class IntcodeProgramTest {
         assertThat(sysOut.asString(), is("0\n"));
     }
 
-}
+    @Test
+    public void shouldBeAbleToPrespecifyMultipleInputsForOpcode3() {
+        IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(3,0,1102,0,9,4,3,2,1101,1,1,11), inputReader, 2, 5);
+        assertThat(intcodeProgram.run(), is(List.of(2,0,5,0,0,4,3,2,1101,1,1,2)));
+    }
 
-//3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9 (using position mode)
-//    3,3,1105,-1,9,1101,0,0,12,4,12,99,1 (using immediate mode)
+}

@@ -43,8 +43,7 @@ public class IntcodeProgram {
                 executeOpcode(MULTIPLY, programPosition, opcodeDecoder);
                 break;
             case 3:
-                programInput.set(programInput.get(programPosition + 1), this.inputReader.readInputAsInt());
-                this.programPosition += 2;
+                storeInput(programPosition);
                 break;
             case 4:
                 System.out.println(paramCalculator(programPosition, opcodeDecoder.getParam1Mode(), 1));
@@ -65,6 +64,15 @@ public class IntcodeProgram {
             default:
                 throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
         }
+    }
+
+    private void storeInput(int programPosition) {
+        Integer valueToStore = this.prespecifiedInput.size() > 0
+            ? prespecifiedInput.get(this.inputPosition)
+            : this.inputReader.readInputAsInt();
+        programInput.set(programInput.get(programPosition + 1), valueToStore);
+        this.inputPosition += 1;
+        this.programPosition += 2;
     }
 
     private void jumpPointer(int inputPosition, OpcodeDecoder opcodeDecoder, boolean isOpcode6) {
