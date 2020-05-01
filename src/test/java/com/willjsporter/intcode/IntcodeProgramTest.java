@@ -85,7 +85,7 @@ public class IntcodeProgramTest {
     public void givenAnInvalidOpCode_theProgramShouldThrowAnException() {
         IntcodeProgram intcodeProgram = new IntcodeProgram(List.of(12, 1, 2, 3), inputReader);
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
+        thrown.expectMessage("Invalid opcode: Opcode must be from 1 - 8 or 99");
         intcodeProgram.run();
     }
 

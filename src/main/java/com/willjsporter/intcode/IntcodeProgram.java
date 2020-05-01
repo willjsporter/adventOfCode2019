@@ -62,7 +62,7 @@ public class IntcodeProgram {
                 executeOpcode(EQUALS, programPosition, opcodeDecoder);
                 break;
             default:
-                throw new IllegalArgumentException("Invalid opcode: Opcode must be either 1, 2, 3, 4 or 99");
+                throw new IllegalArgumentException("Invalid opcode: Opcode must be from 1 - 8 or 99");
         }
     }
 
